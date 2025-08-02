@@ -1,5 +1,6 @@
 //Linked List
 #include<iostream>
+#include <climits>
 using namespace std;
 //creating a node using a class
 class Node{
@@ -77,12 +78,73 @@ void printmaxElement(Node *head){
 	}
 	cout<<"Maximum element = "<<max<<endl;
 }
-//recursive function to find max
-int recursiveMaxelement(Node* head){
-	if(head == 0){
-		return 
+//recursive function to find max element in a linkedlist
+int findMax(Node *head){
+	int x=0;
+	if(head ==0){
+		return MIN_INT;
+	}
+	x=findMax(head->next);
+	if(x>head->data){
+		return x;
+	}
+	else{
+		return head->data;
 	}
 }
+//Linear search in a linked list
+Node* linearSearch(Node* head, int value){
+	Node* temp = head;
+	while(temp != 0){
+		if(value==temp->data){
+			return temp;
+		}
+		temp = temp->next;
+	}
+	return NULL;
+}
+//Recursive Linear Search
+Node* recursiveLinearSearch(Node* head, int value){
+	if(head==0){
+		return NULL;
+	}
+	if(value == head->data){
+		return head;
+	}
+	return recursiveLinearSearch(head->next, value);
+}
+//improve linear search by moving it on head
+Node* search(Node* head, int value){
+	Node* q = 0;
+	Node* p = head;
+	while(p != 0){
+		if(p->data == value){
+			q->next = p->next;
+			p->next = head;
+			head = p;
+		}
+		q = p;
+		p = p->next;
+	}
+}
+//Adding new node to a existing linked list
+// 1. inserting before first (takes constant time)
+// 2. inserting after a given position (takes O(n) time)
+void InsertatFirst(Node* head, int nodeData){
+	Node* t = new Node(nodeData);
+	t->next = head;
+	head = t;
+}
+void InsertatPosition(Node* head, int nodeData, int position){
+	Node* t = new Node(nodeData);
+	Node* p = head;
+	for(int i=0; i<position-1; i++){
+		p = p->next;
+	}
+	t->next = p->next;
+	p->next = t;
+}
+
 int main(){
 	Node* head = new Node(10);
 	head->next = new Node(40);
