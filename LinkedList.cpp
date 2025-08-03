@@ -144,7 +144,66 @@ void InsertatPosition(Node* head, int nodeData, int position){
 	t->next = p->next;
 	p->next = t;
 }
+//Inserting at last of the linked list
+void InsertLast(Node* head, int x){
+	Node* t = new Node(x);
+	t->next = 0;
+	//check if there are already nodes in a linked list or it is empty
+	if(head==0){
+		head = t;
+	}
+	else{
+		Node* temp = head;
+		while(temp->next != 0){
+			temp = temp->next;
+		}
+		temp->next = t;
+	}
+}
+//Inserting in a sorted linked list
+void InsertinSorted(Node* head, int value) {
+    Node* newNode = new Node;
+    newNode->data = value;
+    newNode->next = nullptr;
 
+    // Case 1: Insert at beginning or list is empty
+    if (head == nullptr || value < head->data) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    // Case 2: Traverse and insert in the correct sorted position
+    Node* q = nullptr;
+    Node* temp = head;
+
+    while (temp != nullptr && value > temp->data) {
+        q = temp;
+        temp = temp->next;
+    }
+    q->next = newNode;
+    newNode->next = temp;
+}
+//Deleting a node from a linked list
+// 1. deleting first node
+// 2. deleting node at a given position
+void deleteFirstNode(Node* head){
+	//take a pointer p on the first node to deallocate the memory
+	Node* p = head;
+	head = head->next;
+	delete p;
+}
+void deleteAtPosition(Node* head, int position){
+	Node* q = 0;
+	Node* temp = head;
+	for(int i=0; i<position-1; i++){
+		q = temp;
+		temp = temp->next;
+	}
+	q->next = temp->next;
+	delete temp;
+}
+//Finding if a given linked list is sorted or not 
 int main(){
 	Node* head = new Node(10);
 	head->next = new Node(40);
