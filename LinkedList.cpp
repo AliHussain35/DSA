@@ -204,10 +204,81 @@ void deleteAtPosition(Node* head, int position){
 	delete temp;
 }
 //Finding if a given linked list is sorted or not 
+void checkSorted(Node* head){
+    if(head == 0 || head->next == 0){
+        cout<<"Linked list is sorted"<<endl;
+        return;
+    }
+    int flag = 0;
+    int x = head->data;      
+    Node* temp = head->next;  
+    while(temp != 0){
+        if(x > temp->data){
+            flag = 1;
+            break;
+        }
+        x = temp->data;
+        temp = temp->next;
+    }
+    if(flag == 1){
+        cout<<"Linked list is not sorted"<<endl;
+    }else{
+        cout<<"Linked list is sorted"<<endl;
+    }
+}
+//Removing duplicate elements from a linked list
+void removeDuplicates(Node* head){
+	Node* q = head;
+	Node* p = head->next;
+	while(p !=0){
+		if(q->data == p->data){
+			q->next = p->next;
+			delete p;
+			p = q->next;
+		}
+		p = q;
+		q = q->next;
+	}
+}
+//reversing a linked list
+// 1. reversing elements (using array to first copy elements and then reverse copy them)
+// 2. reversing links
+void reversingElements(Node* head, int length){
+	Node* p =head;
+	int array[length];
+	int index = 0;
+	//first copy all the elements
+	while(p != 0){
+		array[index] = p->data;
+		p = p->next;
+		index++;
+	}
+	//now copy them back in a reverse order
+	p = head;
+	index--;
+	while(p!=0){
+		p->data = array[index--];
+		p = p->next;
+	}
+} //this method needs extra space as we are creating an additional array
+//method 2 = using sliding pointers (3 pointers)
+void reversingLinks(Node* head){
+	Node* p = head;
+	Node* q = 0;
+	Node* r = 0;
+	while(p !=0){
+		r = q;
+		q = p;
+		p = p->next;
+		q->next = r;
+	}
+	head = q;
+}//we prefer modifying links rather than working with elements in the linked list
 int main(){
 	Node* head = new Node(10);
 	head->next = new Node(40);
 	head->next->next = new Node(30);
+	head->next->next->next = new Node(20);
 	displayLinkedlist(head);
 	recursiveDisplay(head);
 	int totalNodes = recursiveCount(head);
