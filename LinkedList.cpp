@@ -274,6 +274,54 @@ void reversingLinks(Node* head){
 	}
 	head = q;
 }//we prefer modifying links rather than working with elements in the linked list
+//concatenation of 2 linked lists
+void concatenate(Node* head, Node *secHead){
+	Node* p;
+	while(p->next != 0){
+		p = p->next;
+	}//now we have reached to the last node of the first linked list
+	
+	p->next = secHead;
+	secHead = 0;
+}
+//merging 2 sorted linked lists into 1 sorted linked list
+void merge(Node* first, Node* second){
+	Node* third;
+	Node* last;
+	if(first->data<second->data){
+		third = first;
+		last = first;
+		first = first->next;
+		last->next = 0;
+	}
+	else{
+		third = second;
+		last = second;
+		second = second->next;
+		last->next = 0;
+	}
+	
+	while(first != 0 && second!=0){
+		if(first->data<second->data){
+			last->next = second;
+			second = second->next;
+			last = second;
+			last->next = 0;
+		}
+		else{
+			last->next = first;
+			first = first->next;
+			last = first;
+			last->next = 0;
+		}
+	}
+	if(first==0){
+		last->next = second;
+	}
+	else{
+		last->next = first;
+	}
+}
 int main(){
 	Node* head = new Node(10);
 	head->next = new Node(40);
