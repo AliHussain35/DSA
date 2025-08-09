@@ -322,6 +322,92 @@ void merge(Node* first, Node* second){
 		last->next = first;
 	}
 }
+void isLoop(Node* head){
+    Node* p = head;// slow
+    Node* q = head;// fast
+
+    while(p && q && q->next) {
+        p = p->next;          // move slow 1 step
+        q = q->next->next;    // move fast 2 steps
+
+        if(p == q){ 
+            cout<< "The linked list is loop"<<endl;
+            return;
+        }
+    }
+
+    cout << "The linked list is linear" << endl;
+}
+//Circular Linked List
+void display(Node* head) {
+    if(head == nullptr)  // empty list
+        return;
+
+    Node* p = head;
+    do{
+        cout<<p->data<<" ";
+        p = p->next;
+    }while(p != head); // stop when we loop back to head
+}
+//Inserting in a circular linked list
+// 1. Inserting before head node
+// 2. Inserting at any given position (same as the normal procedure)
+void InsertatPosition(Node* head, int pos, int data){
+	Node* t = new Node(data);
+	Node* p = head;
+	for(int i=0; i<pos-1; i++){
+		p = p->next;
+	}
+	t->next=p->next;
+	p->next = t;
+}
+void InsertBeforeHead(Node*& head, int data) { // pass by reference so head updates
+    Node* t = new Node(data);
+    if (head == nullptr) { // empty list
+        t->next = t; // point to itself
+        head = t;
+        return;
+    }
+    Node* p = head;
+    while (p->next != head) { // find last node
+        p = p->next;
+    }
+    t->next = head; // new node points to old head
+    p->next = t;    // last node points to new node
+    head = t;       // update head to new node
+}
+//Delete Operations in a circular linked list
+// 1. Delete Head Node
+// 2. Delete a Node from a given position
+void DeleteHeadNode(Node*& head) {
+    if (head == nullptr) // empty list
+        return;
+    if (head->next == head){ // only one node
+        delete head;
+        head = nullptr;
+        return;
+    }
+    Node* p = head;
+    while (p->next != head) { // find last node
+        p = p->next;
+    }
+    Node* temp = head;        // old head to delete
+    p->next = head->next;     // last node points to 2nd node
+    head = head->next;        // update head
+    delete temp;              // free memory
+}
+void DeleteFromPosition(Node* head, int pos){
+	Node* p = head;
+	for(int i=0; i<pos-2; i++){
+		q=p;
+		p=p->next;
+	}
+	Node* q;
+	q = p->next;
+	p->next = q->next;
+	delete q;
+}
+
 int main(){
 	Node* head = new Node(10);
 	head->next = new Node(40);
